@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #stopwatch {
+            text-align: center;
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 64px;
+            margin: 20px 0;
+            color: #333333;
+        }
+
+        button {
+            font-size: 18px;
+            margin: 10px;
+            padding: 10px 25px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button#start {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        button#start:hover {
+            background-color: #45a049;
+        }
+
+        button#pause {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        button#pause:hover {
+            background-color: #e68900;
+        }
+
+        button#reset {
+            background-color: #f44336;
+            color: white;
+        }
+
+        button#reset:hover {
+            background-color: #d32f2f;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div id="stopwatch">
+        <h1 id="display">00:00:00</h1>
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+    </div>
+
+    <script>
+        let seconds = 0; // Total elapsed time in seconds
+        let interval = null; // To store the interval ID
+        const display = document.getElementById('display');
+        const startButton = document.getElementById('start');
+        const pauseButton = document.getElementById('pause');
+        const resetButton = document.getElementById('reset');
+
+        // Function to format time as HH:MM:SS
+        function formatTime(seconds) {
+            const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(seconds % 60).padStart(2, '0');
+            return `${hrs}:${mins}:${secs}`;
+        }
+
+        // Function to start the stopwatch
+        function startStopwatch() {
+            if (!interval) { // Prevent multiple intervals
+                interval = setInterval(() => {
+                    seconds++;
+                    display.textContent = formatTime(seconds);
+                }, 1000);
+            }
+        }
+
+        // Function to pause the stopwatch
+        function pauseStopwatch() {
+            clearInterval(interval);
+            interval = null; // Reset the interval ID
+        }
+
+        // Function to reset the stopwatch
+        function resetStopwatch() {
+            pauseStopwatch();
+            seconds = 0;
+            display.textContent = formatTime(seconds);
+        }
+
+        // Event listeners for buttons
+        startButton.addEventListener('click', startStopwatch);
+        pauseButton.addEventListener('click', pauseStopwatch);
+        resetButton.addEventListener('click', resetStopwatch);
+    </script>
+</body>
+</html>
